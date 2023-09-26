@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>868mhz broadcast</title>
+    <style>
+        /* 90s-inspired CSS for index.html */
+        body {
+            background-color: #000;
+            color: #0095ff; /* Green text */
+            font-family: 'times new roman', monospace;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            color: #bdbdbd; /* Magenta heading */
+            text-align: left;
+        }
+
+        form {
+            text-align: center;
+        }
+
+        label {
+            color: #ffff00; /* Yellow label */
+        }
+
+        button {
+            background-color: #ff6200; /* Magenta button */
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+  
+    <div class="radio-container">
+        <h1>868 mhz</h1>
+        <p>next broadcast: 01.10 21:00</p>
+        
+        <audio id="radio" controls>
+            <source src="your-radio-stream-url.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+            
+    <script>
+        const radio = document.getElementById('radio');
+        const playPauseButton = document.getElementById('play-pause');
+        const volumeControl = document.getElementById('volume');
+
+        playPauseButton.addEventListener('click', () => {
+            if (radio.paused) {
+                radio.play();
+                playPauseButton.textContent = 'Pause';
+            } else {
+                radio.pause();
+                playPauseButton.textContent = 'Play';
+            }
+        });
+
+        volumeControl.addEventListener('input', () => {
+            radio.volume = volumeControl.value;
+        });
+    </script>
+</body>
+</html>
