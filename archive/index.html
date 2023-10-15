@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>868mhz archive</title>
+    <style>
+        /* 90s-inspired CSS for index.html */
+        body {
+            background-color: #000;
+            color: #0095ff; /* Green text */
+            margin: 10px;
+            padding: 10px;
+            font-size: 1.5em;
+        }
+
+        h1 {
+            color: #0033ff; /* Magenta heading */
+            text-align: center;
+        }
+
+        form {
+            text-align: center;
+        }
+
+        label {
+            color: #ffff00; /* Yellow label */
+        }
+
+        button {
+            background-color: #ff6200; /* Magenta button */
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        #radio {
+            width: 50vw;
+            text-align: center;
+        }
+
+        #logo {
+            width: 10%;
+            text-align: center;
+            min-width: 200px;
+        }
+
+        #chatbox {
+            width: 50vw;
+            height: 50vh;
+            min-width: 300px;
+        }
+    </style>
+</head>
+<body>
+    <img id="logo" src="../img/868.png">
+    <div id="chatbox">
+        <h1>Unlock the Audio</h1>
+        <form id="unlockForm">
+            <label for="codeword">Enter the Codeword: </label>
+            <input type="password" id="codeword" name="codeword">
+            <button type="button" id="unlockButton">Unlock</button>
+        </form>
+    </div>
+    <script>
+        // Audio file path
+        const audioFilePath = "001.mp3"; // Replace with the actual path to your audio file
+
+        // Codeword
+        const correctCodeword = "dr1ft1ing-furth3r";
+
+        // Function to unlock the audio
+        function unlockAudio() {
+            const inputCodeword = document.getElementById("codeword").value;
+            if (inputCodeword === correctCodeword) {
+                // Unlock the audio by playing it
+                const audio = new Audio(audioFilePath);
+                audio.play();
+            } else {
+                alert("Incorrect codeword. Access denied.");
+            }
+        }
+
+        // Add a click event listener to the Unlock button
+        document.getElementById("unlockButton").addEventListener("click", unlockAudio);
+    </script>
+</body>
+</html>
