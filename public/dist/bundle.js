@@ -1,1 +1,0 @@
-(()=>{var e={50:()=>{}},r={};function s(o){var n=r[o];if(void 0!==n)return n.exports;var t=r[o]={exports:{}};return e[o](t,t.exports,s),t.exports}s(50).createSocket("udp4").send(void 0,8080,"192.168.2.1",(e=>{e?console.error("Error sending UDP message:",e):console.log("UDP message sent successfully")}))})();
