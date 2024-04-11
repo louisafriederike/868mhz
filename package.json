@@ -1,0 +1,31 @@
+{
+  "name": "xpub_prototype_citynet",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://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@github.com/louisafriederike/xpub_prototype_citynet.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/louisafriederike/xpub_prototype_citynet/issues"
+  },
+  "homepage": "https://github.com/louisafriederike/xpub_prototype_citynet#readme",
+  "dependencies": {
+    "express": "^4.19.2",
+    "node": "^18.20.2",
+    "node-gyp": "^9.4.0",
+    "osc": "^2.4.4",
+    "package.js": "^1.1.3",
+    "package.json": "^0.0.0",
+    "php": "^1.0.2",
+    "php-express": "^0.0.3",
+    "serialport": "^10.4.0",
+    "socket.io": "^4.6.2"
+  }
+}

@@ -1,0 +1,223 @@
+<!doctype html>
+<html>
+    <head>
+        <title>eixogen</title>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <link rel="icon" href="img/favicon.ico" type="image/x-icon" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="style.css" rel="stylesheet">
+        <!-- <script src="js/p5.js"></script>
+        <script src="js/p5.geolocation.js"></script> -->
+        <script src='socket.io/socket.io.js'></script>   
+        
+        <meta property="og:title" content="EIXOGEN" />
+        <meta property="og:description" content="EIXOGEN" />
+        <meta property="og:image" content="" />
+    </head>
+    <body>     <!--   <img id="logo" src="img/logo.png"> <div class="profile"> <p id="title">Welcome to Eixogen, Sane! Take a deep breath.</p>
+             
+      <button >profile</button>
+    </div> -->    
+        <div class="wrapper">
+        <div class="flex-container" >
+
+         
+                    <div class="flex-left">
+                      <!-- <progress id="file" max="100" value="70"> 70% </progress> -->                      
+               
+                      <div>
+           
+                      </div>
+                         
+                       <div class="section">
+                        <p style="font-size: 1.2em;">*~* **~ forget me not ~</p>
+                       </div>
+                      <div class="section" id="objective"><br><br><br><br>
+                         
+                        <p>[by user 9]</p>  
+                        <p>[status: active</p>
+                        <a href="https://maps.app.goo.gl/XTqe7tSJ67qSAid37">[51.914954, 4.471217]</a>
+                        <p>[outdoors]</p> 
+                        
+                    </div>
+                         
+                   
+                        <div class="section">
+                            <p>I was here, I was right here where you are standing, many moons ago. When i feel lonely, I like to play with this motion triggered light. It senses me and replies. So I am not alone. We are here together.----<br>
+                              find the source of the light. There, I left the next clue. 
+                              </p>   
+                        </div>
+                        <br><br>
+                        <div class="section-main">
+                    
+                         
+                           
+                          <p>----enter the codeword into your personal page to mine ether credits----</p>
+                          
+                       
+                  
+                      </div>
+
+                        <button onclick="window.location.href='index.html';">back<br></button>
+
+                  <!-- unused below -->
+
+                  <div class="section" id="location-log">
+
+                    <p id="log-text"></p>   
+                  </div>
+                        <!-- <div class="section" id="nav-console">
+                            
+                            <p>DISTANCE: <span id="distance">0</span> km</p>
+                      
+                            <div id="tripmeter">
+                               <p>Gateway 1:<br/>
+                                    <span id="startLat">???</span>&deg; <br><span id="startLon">???</span>&deg;
+                                </p>
+                                <p>Gateway 2:<br/>
+                                    <span id="startLat2">???</span>&deg; <br><span id="startLon2">???</span>&deg;
+                                </p>
+                                <p>
+                                    Status:<br/>
+                                    <span id="message2">detecting....</span>
+                                    </p>
+                                <p>
+                                    Current Location:<br/>
+                                    <span id="currentLat">locating...</span>&deg; <br><span id="currentLon">locating...</span>&deg;
+                                </p> 
+                                    <p>
+                                    STATUS:
+                                    <span id="message">detecting....</span>
+                                    </p>                               
+                                </div> 
+                        </div> -->
+                        <div class="section" id="dreamlog">
+                            <p></p>  
+                            </div>
+                            <div class="section" id="back2" onclick="backAgain2()">
+                                ↪ log 
+                        </div>
+                    
+                    
+                        <div class="section" id="log1">          
+                        <p onclick="log1Open()">LOG 1  03:02:00  02-04-22  PORT: 9.1.13.<br></p>
+                        </div> 
+                        <div class="section" id="log2">   
+                        <p onclick="log2Open()">LOG 2  02:42:00  13-04-22  PORT: 16.18.15.<br></p>
+                        </div>
+                        <div class="section" id="log3">             
+                        <p onclick="log3Open()">LOG 3  03:36:00  25-04-22  PORT: 20.5.3.<br></p>
+                        </div>
+                        <div class="section" id="log4">   
+                        <p onclick="log4Open()">LOG 4  03:86:00  07-05-22  PORT: 20.15.18<br></p>
+                        </div>
+                        <div class="section" id="log5">                 
+                        <p onclick="log5Open()">LOG 5  06:86:00  17-05-22  PORT: 868<br></p>   
+                        </div>              
+                       
+                        <div class="section" id="log">
+                        <p id="info"></p>
+
+                           </div>   
+                           <div class="section" id="back" onclick="backAgain()">
+                              ↪
+                           </div>
+        
+                    </div>
+                       
+
+            
+            <div class="flex-right">
+       
+            </div>
+
+
+        </div>  
+        
+      </div>
+ 
+     
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+     
+
+    
+    </body>
+    <script>
+      const socket = io();
+      const activeUsers = [];
+  
+      updateActiveUsers(); // Call it here to show active users on page load
+  
+      socket.on('node-data', function(data) {
+        console.log(data);
+  
+        // Split the data into separate parts
+        const [node, value] = data.split(' ');
+  
+        document.getElementById('log-text').textContent = `user ${value} entered zone ${node}`;
+  
+        if (node === '3' && value === '15') {
+          // Change the background color to red
+          document.body.style.backgroundColor = 'red';
+          document.getElementById('location-log').style.display = 'block';
+        } else if (node === 'node4' && value === '21') {
+          // Change the background color to blue
+          document.body.style.backgroundColor = 'blue';
+        } else {
+          // Restore the default background color
+          document.body.style.backgroundColor = rgb(26, 26, 26);
+        }
+      });
+  
+      //testing socket message from textinput field to arduino
+      var messages = document.getElementById('messages');
+      var chatHistory = localStorage.getItem('chatHistory');
+      if (chatHistory) {
+        messages.innerHTML = chatHistory;
+      }
+  
+      function sendMessage() {
+        const inputField = document.getElementById('input');
+        const message = inputField.value;
+        var item = document.createElement('li');
+        item.textContent = message;
+        item.className = 'me';
+        messages.appendChild(item);
+        inputField.value = '';
+        socket.emit('chat message', message);
+        messages.scrollTop = messages.scrollHeight;
+        localStorage.setItem('chatHistory', messages.innerHTML);
+      }
+  
+      socket.on('chat message', function(msg) {
+        var item = document.createElement('li');
+        item.textContent = msg;
+        item.className = 'others';
+        messages.appendChild(item);
+        messages.scrollTop = messages.scrollHeight - messages.clientHeight;
+      });
+  
+      socket.on('connect', function() {
+        // Add the current socket ID to the activeUsers array
+        activeUsers.push(socket.id);
+        updateActiveUsers();
+      });
+  
+      socket.on('disconnect', function() {
+        // Remove the disconnected socket ID from the activeUsers array
+        const index = activeUsers.indexOf(socket.id);
+        if (index !== -1) {
+          activeUsers.splice(index, 1);
+          updateActiveUsers();
+        }
+      });
+  
+      function updateActiveUsers() {
+        const userLog = document.getElementById('user-log');
+        userLog.textContent = activeUsers.join(', ');
+      }
+    </script>
+    
+   <script type="text/javascript" src="js/input.js"></script>
+</html>

@@ -1,0 +1,41 @@
+<html>
+    <head>
+        <title>hamsters remote</title>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <link rel="icon" href="img/favicon.ico" type="image/x-icon" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="../style.css" rel="stylesheet">    
+        <meta property="og:title" content="EIXOGEN" />
+        <meta property="og:description" content="EIXOGEN" />
+        <meta property="og:image" content="" />
+    </head>
+    <body>     
+      <!--  <img id="logo" src="img/logo.png">-->
+     <div class="profile"> <p id="title"> ~* *..* welcome to hamster control ~</p> 
+
+        <button id="sendOscButton" style="background-color: lightpink;">HAMSTERS ON 🐹</button>
+        <button id="sendOffButton" style="background-color: lightpink;">HAMSTERS OFF 🐱</button>
+        <div id="response"></div>
+        
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+          $(document).ready(function() {
+            // Handle button click event
+            $('#sendOscButton').click(function() {
+              $.post('/hamp-on', function(data) {
+                // Handle the response if needed
+                console.log(data);
+                $('#response').text(data); // Display the response on the page
+              });
+            });
+        
+            $('#sendOffButton').click(function() {
+              $.post('/hamp-off', function(data) {
+                // Handle the response if needed
+                console.log(data);
+                $('#response').text(data); // Display the response on the page
+              });
+            });
+          });
+        </script>
