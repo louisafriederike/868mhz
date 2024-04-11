@@ -1,0 +1,208 @@
+<!doctype html>
+<html>
+    <head>
+        <title>eixogen</title>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <link rel="icon" href="img/favicon.ico" type="image/x-icon" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="style.css" rel="stylesheet">
+        <script src='socket.io/socket.io.js'></script>   
+        <meta property="og:title" content="EIXOGEN" />
+        <meta property="og:description" content="EIXOGEN" />
+        <meta property="og:image" content="" />
+    </head>
+    <body>      
+ 
+
+
+      <div class="profile"> 
+        <p id="title"> ~* *..* welcome to eixogen ~</p> 
+        <!-- <button><a href="./metal/portal.php">your portal</a></button> 
+      </div> -->
+      <div class="wrapper">
+        <div class="flex-container" >
+          <div class="flex-left">              
+            <div>
+              <embed style="color: whitesmoke;" class="embed" src="https://wttr.in/Rotterdam?T0">
+            </div>  
+            <!-- <div class="section" id="objective"><br><br><br><br>
+              <p>~* *..* active trails ~~</p> 
+              <button onclick="window.location.href='riddles.html';">~* *..* mechanical fireflies<br> ~~ by user [xx[[</button>
+            </div> -->
+            <!-- <div class="section" id="log-text">
+              <p>user _ entered zone _</p>
+            </div>            -->
+            <div class="section" id="objective"><br><br><br><br>
+              <p>~* *..* active trails ~~</p> 
+              <!-- <button onclick="window.location.href='forgetmenot.html';">~* *..* forget me not<br> ~~ by user 9</button> -->
+              <button onclick="window.location.href='space_inbetween.html';">~* *..* the space inbetween<br> ~~ by user Rasco</button>
+              <button onclick="window.location.href='frosty_news.html';">~* *..* frosty news<br> ~~ by user 9</button>
+              <button onclick="window.location.href='mechanical_fireflies.html';">~* *..* mechanical fireflies<br> ~~ by user 9</button> 
+            </div> 
+            <div class="section" id="chat-window">
+              <p>~* *..* live chat ~~</p>
+              <ul id="messages"></ul>
+              <span><form id="form" action="">
+                <input id="input" autocomplete="off"/><button onclick="sendMessage()">>>></button>
+              </form></span> 
+            </div>           
+            <div class="section" >
+              <p>users online: </p> 
+              <ul id="user-log"></ul>    
+            </div>
+            <div class="section" id="txt">
+              <iframe class ="embed" src="https://eixo.codes/txx/" style="width:100%; height:30%; top:0; left:0; border-radius:6px; color: #c2c2c2"></iframe>
+            </div>
+            <br><br> 
+            <button><a href="about.html">about</a></button><button><a target=”_blank” href="handbook.pdf">handbook</a></button>
+                     
+            <div class="section" id="back2" onclick="backAgain2()">
+                    ↪ log 
+            </div>       
+            <div class="section" id="log1">          
+            <p onclick="log1Open()">LOG 1  03:02:00  02-04-22  PORT: 9.1.13.<br></p>
+            </div> 
+            <div class="section" id="log2">   
+            <p onclick="log2Open()">LOG 2  02:42:00  13-04-22  PORT: 16.18.15.<br></p>
+            </div>
+            <div class="section" id="log3">             
+            <p onclick="log3Open()">LOG 3  03:36:00  25-04-22  PORT: 20.5.3.<br></p>
+            </div>
+            <div class="section" id="log4">   
+            <p onclick="log4Open()">LOG 4  03:86:00  07-05-22  PORT: 20.15.18<br></p>
+            </div>
+            <div class="section" id="log5">                 
+            <p onclick="log5Open()">LOG 5  06:86:00  17-05-22  PORT: 868<br></p>   
+            </div>              
+            <div class="section" id="log">
+            <p id="info"></p>
+            </div>   
+            <div class="section" id="back" onclick="backAgain()">
+              ↪
+            </div>
+          </div>
+        </div>  
+      </div>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    </body>
+    <script>
+      const socket = io();
+      const activeUsers = {}; // Use an object to store usernames and socket IDs
+      const messages = document.getElementById('messages');
+      const chatHistory = localStorage.getItem('chatHistory') || '';
+      let loggedIn = false;
+      let username = '';
+
+      socket.on('node-data', function(data) {
+        console.log(data);
+  
+        // Split the data into separate parts
+        const [node, value] = data.split(' ');
+  
+        document.getElementById('log-text').textContent = `user ${value} entered zone ${node}`;
+  
+        if (node === '3' && value === '1') {
+          // Change the background color to red
+          document.body.style.backgroundColor = 'red';
+          document.getElementById('location-log').style.display = 'block';
+        } else if (node === '2' && value === '1') {
+          // Change the background color to blue
+          document.body.style.backgroundColor = 'blue';
+        } else {
+          // Restore the default background color
+          document.body.style.backgroundColor = rgb(26, 26, 26);
+        }
+      });
+    
+      // Function to fetch the username from name.php
+      function fetchUsername() {
+        const xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+              // Successfully fetched username
+              const responseText = xhr.responseText;
+              if (responseText.includes('Undefined variable')) {
+                // Set to socket ID for anonymous users
+                username = socket.id;
+                loggedIn = false;
+              } else {
+                // Use the fetched username
+                username = responseText.trim();
+                loggedIn = true;
+              }
+            } else {
+              // Failed to fetch username, set to socket ID
+              username = socket.id;
+              loggedIn = false;
+            }
+            // Update the active user's username
+            const socketId = socket.id;
+            activeUsers[socketId] = username;
+            updateActiveUsers();
+          }
+        };
+        xhr.open('GET', '/metal/name.php', true);
+        xhr.send();
+      }
+    
+      function sendMessage() {
+        const inputField = document.getElementById('input');
+        const message = inputField.value;
+        const item = document.createElement('li');
+    
+        if (loggedIn) {
+          // If logged in, send messages with the username
+          item.textContent = `[${username}] -> ${message}`;
+          socket.emit('chat message', `[${username}] -> ${message}`);
+        } else {
+          // If not logged in, send messages with socket ID
+          item.textContent = `[${socket.id}] -> ${message}`;
+          socket.emit('chat message', `[${socket.id}] -> ${message}`);
+        }
+    
+        item.className = 'me';
+        messages.appendChild(item);
+        inputField.value = '';
+        messages.scrollTop = messages.scrollHeight;
+        localStorage.setItem('chatHistory', messages.innerHTML);
+      }
+    
+      socket.on('chat message', function (msg) {
+        const item = document.createElement('li');
+        item.textContent = msg;
+        item.className = 'others';
+        messages.appendChild(item);
+        messages.scrollTop = messages.scrollHeight - messages.clientHeight;
+        updateActiveUsers();
+      });
+    
+      socket.on('connect', function () {
+        const socketId = socket.id;
+        if (!loggedIn) {
+          // If not logged in, set the default username as socket ID
+          username = socketId;
+        }
+        activeUsers[socketId] = username;
+        updateActiveUsers();
+        fetchUsername();
+      });
+    
+      socket.on('disconnect', function () {
+        const socketId = socket.id;
+        if (activeUsers[socketId]) {
+          delete activeUsers[socketId];
+          updateActiveUsers();
+        }
+      });
+    
+      function updateActiveUsers() {
+        const userLog = document.getElementById('user-log');
+        userLog.innerHTML = Object.values(activeUsers).filter((value) => value !== username).join(', ');
+      }
+    
+      fetchUsername(); // Fetch the username when the user is connected
+    </script> 
+    <script type="text/javascript" src="js/input.js"></script>
+</html>

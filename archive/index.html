@@ -5,11 +5,11 @@
     <style>
         /* 90s-inspired CSS for index.html */
         body {
-            background-color: #000;
+            background-color: #ffffff;
             color: #0095ff; /* Green text */
             margin: 10px;
             padding: 10px;
-            font-size: 1.5em;
+            font-size: 2em;
         }
 
         h1 {
@@ -22,16 +22,21 @@
         }
 
         label {
-            color: #ffff00; /* Yellow label */
+            color: #000000; /* Yellow label */
         }
 
         button {
             background-color: #ff6200; /* Magenta button */
             color: #000;
             border: none;
-            padding: 10px 20px;
-            font-size: 18px;
+            padding: 2px 20px;
             cursor: pointer;
+            font-size: 0.8em;
+        }
+
+        #codeword {
+       
+            font-size: 0.8em;
         }
 
         #radio {
@@ -46,43 +51,63 @@
         }
 
         #chatbox {
-            width: 50vw;
-            height: 50vh;
+            width: 80vw;
+            height: 80vh;
             min-width: 300px;
         }
+
+        #audioList {
+            display: none;
+            text-align: center;
+        }
+
+        .audioLink {
+            display: block;
+            text-decoration: none;
+            color: #0033ff; /* Green link */
+            margin: 10px;
+        }
+
+        #unlockForm{
+            min-width: 100vw;
+
+
+        }
+
+
     </style>
 </head>
 <body>
     <img id="logo" src="../img/868.png">
     <div id="chatbox">
-        <h1>Unlock the Audio</h1>
+        <h1>archive--''</h1>
         <form id="unlockForm">
-            <label for="codeword">Enter the Codeword: </label>
+            <label for="codeword">//code...!!!!// </label>
             <input type="password" id="codeword" name="codeword">
-            <button type="button" id="unlockButton">Unlock</button>
+            <button type="button" id="unlockButton">unlock</button>
         </form>
+        <div id="audioList">
+            <a class="audioLink" href="https://eixo.codes/001.mp3" target="_blank">01-10-30_9</a>
+            <a class="audioLink" href="https://eixo.codes/002.mp3" target="_blank">15-10-30_9</a>
+            <a href="https://www.rcrwireless.com/20210917/carriers/kerlink-puts-lorawan-on-lightpoles-in-rotterdam-senet-offers-lorawan-network-integration-and-wholesale-in-us">d1g1t4l-tw1n</a>
+        </div>
     </div>
     <script>
-        // Audio file path
-        const audioFilePath = "001.mp3"; // Replace with the actual path to your audio file
-
         // Codeword
-        const correctCodeword = "dr1ft1ing-furth3r";
+        const correctCodeword = "d1g1t4l-tw1n";
 
-        // Function to unlock the audio
-        function unlockAudio() {
+        // Function to unlock the audio list
+        function unlockAudioList() {
             const inputCodeword = document.getElementById("codeword").value;
             if (inputCodeword === correctCodeword) {
-                // Unlock the audio by playing it
-                const audio = new Audio(audioFilePath);
-                audio.play();
+                document.getElementById("audioList").style.display = "block";
             } else {
                 alert("Incorrect codeword. Access denied.");
             }
         }
 
         // Add a click event listener to the Unlock button
-        document.getElementById("unlockButton").addEventListener("click", unlockAudio);
+        document.getElementById("unlockButton").addEventListener("click", unlockAudioList);
     </script>
 </body>
 </html>

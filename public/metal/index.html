@@ -1,0 +1,140 @@
+<!doctype html>
+<html>
+    <head>
+        <title>eixogen</title>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <link rel="icon" href="img/favicon.ico" type="image/x-icon" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="style.css" rel="stylesheet">
+        <!-- <script src="js/p5.js"></script>
+        <script src="js/p5.geolocation.js"></script> -->
+        <script src='socket.io/socket.io.js'></script>   
+        
+        <meta property="og:title" content="EIXOGEN" />
+        <meta property="og:description" content="EIXOGEN" />
+        <meta property="og:image" content="" />
+    </head>
+
+    <body>      
+             
+        <div class="wrapper">
+        <div class="flex-container" >
+
+         
+                    <div class="flex-left">
+                      <!-- <progress id="file" max="100" value="70"> 70% </progress> -->                      
+               
+                      <div>
+                        <embed class ="embed" src="https://wttr.in/Rotterdam?T0">
+                     </div> 
+                      <div class="section" >
+                        <p>sleepwalker.mod = active</p>  
+                        </div>
+                        </div>
+                         <div class="section-main">
+                            <!-- <progress id="file" max="100" value="70"> 70% </progress> --> 
+                            
+                            <!--highscore cheat code input-->
+                        <p>>>> CACHE CODE:<br><br></p>
+                        <span><form id="form" action="">
+                            <input id="input" autocomplete="off" onkeyup="this.value = this.value.toUpperCase();"/><button onclick="sendMessage()">>>></button>
+                        </form><br><br></span> 
+                   
+
+                          </div>
+
+
+                  </div>
+
+                
+            </div>
+
+
+        </div>  
+        
+      </div>
+     
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+    
+    </body>
+    <script>
+      const socket = io();
+      const activeUsers = [];
+  
+      updateActiveUsers(); // Call it here to show active users on page load
+  
+      socket.on('node-data', function(data) {
+        console.log(data);
+  
+        // Split the data into separate parts
+        const [node, value] = data.split(' ');
+  
+        document.getElementById('log-text').textContent = `user ${value} entered zone ${node}`;
+  
+        if (node === '3' && value === '15') {
+          // Change the background color to red
+          document.body.style.backgroundColor = 'red';
+          document.getElementById('location-log').style.display = 'block';
+        } else if (node === 'node4' && value === '21') {
+          // Change the background color to blue
+          document.body.style.backgroundColor = 'blue';
+        } else {
+          // Restore the default background color
+          document.body.style.backgroundColor = rgb(26, 26, 26);
+        }
+      });
+  
+      //testing socket message from textinput field to arduino
+      var messages = document.getElementById('messages');
+      var chatHistory = localStorage.getItem('chatHistory');
+      if (chatHistory) {
+        messages.innerHTML = chatHistory;
+      }
+  
+      function sendMessage() {
+        const inputField = document.getElementById('input');
+        const message = inputField.value;
+        var item = document.createElement('li');
+        item.textContent = message;
+        item.className = 'me';
+        messages.appendChild(item);
+        inputField.value = '';
+        socket.emit('chat message', message);
+        messages.scrollTop = messages.scrollHeight;
+        localStorage.setItem('chatHistory', messages.innerHTML);
+      }
+  
+      socket.on('chat message', function(msg) {
+        var item = document.createElement('li');
+        item.textContent = msg;
+        item.className = 'others';
+        messages.appendChild(item);
+        messages.scrollTop = messages.scrollHeight - messages.clientHeight;
+      });
+  
+      socket.on('connect', function() {
+        // Add the current socket ID to the activeUsers array
+        activeUsers.push(socket.id);
+        updateActiveUsers();
+      });
+  
+      socket.on('disconnect', function() {
+        // Remove the disconnected socket ID from the activeUsers array
+        const index = activeUsers.indexOf(socket.id);
+        if (index !== -1) {
+          activeUsers.splice(index, 1);
+          updateActiveUsers();
+        }
+      });
+  
+      function updateActiveUsers() {
+        const userLog = document.getElementById('user-log');
+        userLog.textContent = activeUsers.join(', ');
+      }
+    </script>
+    
+   <script type="text/javascript" src="js/input.js"></script>
+</html>
+
